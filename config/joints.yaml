@@ -1,0 +1,81 @@
+# Publish all joint states -----------------------------------
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+# Position Controllers ---------------------------------------
+shoulder_pitch_position_controller:
+  type: "effort_controllers/JointTrajectoryController"
+  joints:
+    - shoulder_pitch
+  gains: # Required because we're controlling an effort interface
+    shoulder_pitch: {p: 100,  d: 1, i: 1, i_clamp: 1}
+shoulder_roll_position_controller:
+  type: "effort_controllers/JointTrajectoryController"
+  joints:
+    - shoulder_roll
+  gains: # Required because we're controlling an effort interface
+    shoulder_roll: {p: 100,  d: 1, i: 1, i_clamp: 1}
+elbowJ_position_controller:
+  type: "effort_controllers/JointTrajectoryController"
+  joints:
+    - elbowJ
+  gains: # Required because we're controlling an effort interface
+    elbowJ: {p: 100,  d: 1, i: 1, i_clamp: 1}
+wristJ_position_controller:
+  type: "effort_controllers/JointTrajectoryController"
+  joints:
+    - wristJ
+  gains: # Required because we're controlling an effort interface
+    wristJ: {p: 100,  d: 1, i: 1, i_clamp: 1}
+finger1J_position_controller:
+  type: "effort_controllers/JointTrajectoryController"
+  joints:
+    - finger1J
+  gains: # Required because we're controlling an effort interface
+    finger1J: {p: 100,  d: 1, i: 1, i_clamp: 1}
+finger2J_position_controller:
+  type: "effort_controllers/JointTrajectoryController"
+  joints:
+    - finger2J
+  gains: # Required because we're controlling an effort interface
+    finger2J: {p: 100,  d: 1, i: 1, i_clamp: 1}
+# shoulder_roll_position_controller:
+#   type: effort_controllers/JointPositionController
+#   joint: shoulder_roll
+#   pid: {p: 10, i: 1, d: 1}
+# elbowJ_position_controller:
+#   type: effort_controllers/JointPositionController
+#   joint: elbowJ
+#   pid: {p: 10, i: 1, d: 1}
+# wristJ_position_controller:
+#   type: effort_controllers/JointPositionController
+#   joint: wristJ
+#   pid: {p: 10, i: 1, d: 1}
+# finger1J_position_controller:
+#   type: effort_controllers/JointPositionController
+#   joint: finger1J
+#   pid: {p: 10, i: 1, d: 1}
+# finger2J_position_controller:
+#   type: effort_controllers/JointPositionController
+#   joint: finger2J
+#   pid: {p: 10, i: 1, d: 1}
+# # hand_controller:
+# #   type: effort_controllers/JointTrajectoryController
+# #   joints:
+# #     - finger1J
+# #     - finger2J
+# #   gains: # Required because we're controlling a velocity interface
+# #     finger1J: {p: 100,  d: 1, i: 1, i_clamp: 1}
+# #     finger2J: {p: 100,  d: 1, i: 1, i_clamp: 1}
+# #     allow_partial_joints_goal: true
+# # hand_controller:
+# #   gains:
+# #     finger1J:
+# #       p: 10.0
+# #     finger2J:
+# #       p: 10.0
+# #     type: effort_controllers/JointTrajectoryController
+# #   joints: [finger2J, finger2J]
+   
+

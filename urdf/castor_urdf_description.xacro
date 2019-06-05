@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<robot name="castor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<!-- BGN - Include -->
+<xacro:include filename="$(find castor2_description)/urdf/links_joints.xacro" />
+<xacro:include filename="$(find castor2_description)/urdf/parameters.xacro" />
+<!-- END - Include -->
+  
+<!-- BGN - Robot description -->
+
+
+<!-- BGN - head -->
+<link name="world">
+</link>
+  <joint name="world" type="fixed">
+     <parent link="world"/>
+     <child link="base_link"/>
+   </joint>
+   
+<m_link_box name="base_link"
+    origin_xyz="0 0 0" origin_rpy="0 0 0" 
+    size="0.2 0.2 ${alto0}"
+    mass="1231"
+    ixx="170.667" ixy="0" ixz="0"
+    iyy="170.667" iyz="0"
+    izz="170.667"/>
+
+<m_joint name="neckJ" type="continuous"
+    axis_xyz="0 0 1"
+    origin_xyz="0 0 ${alto0/2}" origin_rpy="0 0 0" 
+    parent="base_link" child="neck"
+    limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
+
+<m_link_cylinder name="neck"
+    origin_xyz="0 0 ${alto1/2}" origin_rpy="0 0 0"
+    radius="0.05" length="${alto1}"/>
+
+<m_joint name="neck_head" type="revolute"
+    axis_xyz="0 0 1"
+    origin_xyz="0 0 ${alto1}" origin_rpy="0 0 0" 
+    parent="neck" child="head"
+    limit_e="1000" limit_l="0" limit_u="0" limit_v="0.5" />
+
+<m_link_box name="head"
+    origin_xyz="0 0 ${alto2/2}" origin_rpy="0 0 ${radians(45)}" 
+    size="0.1 0.1 ${alto2}"
+    mass="0.1"
+    ixx="0.03" ixy="0" ixz="0"
+    iyy="0.03" iyz="0"
+    izz="0.03"/>
+<!-- END - head  -->
+
+
+<!-- BGN - arm1  -->
+<m_joint name="pasive_j" type="revolute"
+    axis_xyz="1 0 0"
+    origin_xyz="-0.15 0.2 0.03" origin_rpy="${-radians(12)} 0 0" 
+    parent="base_link" child="pasive"
+    limit_e="10000000" limit_l="${radians(0)}" limit_u="${radians(0)}" limit_v="0.5" />
+
+<m_link_cylinder name="pasive"
+    origin_xyz="0 0 ${L1/2}" origin_rpy="0 0 0"
+    radius="0.01" length="${L1}"/>
+
+<m_joint name="shoulder_pitch" type="revolute"
+    axis_xyz="1 0 0"
+    origin_xyz="0 0 ${L1+(L2+0.002)}" origin_rpy="0 0 0" 
+    parent="pasive" child="shoulderP"
+    limit_e="10000000" limit_l="0" limit_u="2.3" limit_v="0.5" />
+
+<m_link_cylinder name="shoulderP"
+    origin_xyz="0 0 0" origin_rpy="${radians(90)} 0 ${radians(90)}"
+    radius="${L2}" length="${L2}"/>
+
+<m_joint name="shoulder_roll" type="revolute"
+    axis_xyz="0 1 0"
+    origin_xyz="0 ${L2+0.01} 0" origin_rpy="0 ${radians(180)} 0" 
+    parent="shoulderP" child="shoulderR"
+    limit_e="10000000" limit_l="-1.5" limit_u="0.1" limit_v="0.5" />
+
+<m_link_cylinder name="shoulderR"
+    origin_xyz="0 0 ${L3/2}" origin_rpy="0 0 0"
+    radius="0.01" length="${L3}"/>
+
+<m_joint name="elbowJ" type="revolute"
+    axis_xyz="0 1 0"
+    origin_xyz="0 0 ${L3+0.025}" origin_rpy="0 0 0" 
+    parent="shoulderR" child="elbow"
+    limit_e="10000000" limit_l="-2" limit_u="-0.18" limit_v="0.5" />
+
+<m_link_cylinder name="elbow"
+    origin_xyz="0 0 ${(L4/2)-0.02}" origin_rpy="0 0 0"
+    radius="0.01" length="${L4}"/>
+
+<m_joint name="wristJ" type="continuous"
+    axis_xyz="0 0 1"
+    origin_xyz="0 0 ${(L4)-0.02+(0.01/2)}" origin_rpy="0 0 0" 
+    parent="elbow" child="wrist"
+    limit_e="10000000" limit_l="0" limit_u="0" limit_v="0.5" />
+
+<m_link_cylinder name="wrist"
+    origin_xyz="0 0 0" origin_rpy="0 0 0"
+    radius="0.015" length="0.01"/>
+<!-- END - arm1  -->
+
+<!-- BGN - hand  -->
+<m_joint name="finger1J" type="prismatic"
+    axis_xyz="0 1 0"
+    origin_xyz="0 0 ${0.05/2+0.005}" origin_rpy="0 0 0" 
+    parent="wrist" child="finger1"
+    limit_e="10000000" limit_l="0.005" limit_u="0.02" limit_v="0.5" />
+
+<m_link_box name="finger1"
+    origin_xyz="0 0 0" origin_rpy="0 0 0" 
+    size="0.01 0.01 0.05"
+    mass="0.1"
+    ixx="0.03" ixy="0" ixz="0"
+    iyy="0.03" iyz="0"
+    izz="0.03"/>
+
+<m_joint name="finger2J" type="prismatic"
+    axis_xyz="0 -1 0"
+    origin_xyz="0 0 ${0.05/2+0.005}" origin_rpy="0 0 0" 
+    parent="wrist" child="finger2"
+    limit_e="10000000" limit_l="0.005" limit_u="0.02" limit_v="0.5" />
+
+<m_link_box name="finger2"
+    origin_xyz="0 0 0" origin_rpy="0 0 0" 
+    size="0.01 0.01 0.05"
+    mass="0.1"
+    ixx="0.03" ixy="0" ixz="0"
+    iyy="0.03" iyz="0"
+    izz="0.03"/>
+
+<joint name="katana_gripper_tool_frame_joint" type="fixed">
+    <parent link="wrist"/>
+    <child link="gripper_tool_frame" />
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+</joint>
+
+<link name="gripper_tool_frame">
+<!-- This is the coordinate system of the tool (this is the position
+used in IK etc., relative to the base frame); there is no actual
+arm part attached to this link -->
+</link>
+<!-- END - hand  -->
+
+<!-- END - Robot description -->
+ 
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/castor</robotNamespace>
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo> 
+
+</robot>
