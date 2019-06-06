@@ -33,12 +33,13 @@
             respawn="false" output="screen" ns="/castor"
             args="--namespace=/castor
             joint_state_controller
+            motor1_controller
             shoulder_roll_position_controller
             shoulder_pitch_position_controller
             elbowJ_position_controller
             wristJ_position_controller
             finger1J_position_controller
-            finger2J_position_controller
+            finger2J_position_controller        
             --timeout 60">
         </node>
    <!-- send fake joint values
@@ -52,6 +53,6 @@
             <remap from="/joint_states" to="/castor/joint_states" />
         </node>
          <!-- Show in Rviz   -->
-        <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find castor2_description)/launch/config.rviz"/>-->
+        <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find castor2_description)/launch/config.rviz"/> -->
     </group>
 </launch>
